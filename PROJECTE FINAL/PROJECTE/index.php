@@ -10,7 +10,7 @@
 
     <form method="post">
         Nombre: <input type="text" name="name"><br>
-        correo: <input type="text" name="email"><br>
+        correo electronic: <input type="text" name="email"><br>
         <input type="submit">
     </form>
 
