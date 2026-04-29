@@ -9,8 +9,8 @@
     <h2>Formulari Incidencies</h2>
 
     <form method="post">
-        Name: <input type="text" name="name"><br>
-        mail: <input type="text" name="email"><br>
+        Nombre: <input type="text" name="name"><br>
+        correo: <input type="text" name="email"><br>
         <input type="submit">
     </form>
 
