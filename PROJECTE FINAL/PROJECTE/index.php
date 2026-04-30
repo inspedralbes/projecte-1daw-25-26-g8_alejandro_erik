@@ -1,25 +1,45 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ca">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Gestió d'Incidències</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        .menu {
+            margin-top: 40px;
+        }
+        .menu a {
+            display: block;
+            margin: 10px auto;
+            padding: 15px;
+            width: 250px;
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        .menu a:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-
 <body>
-    <h2>Formulari Incidencies</h2>
 
-    <form method="post">
-        Nombre: <input type="text" name="name"><br>
-        correo electronico: <input type="text" name="email"><br>
-        <input type="submit">
-    </form>
+    <h1>Benvingut al sistema d'incidències</h1>
+    <p>Selecciona una opció:</p>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $nom = htmlspecialchars($_POST["nom"]);
-    echo "<h3>Hola $name</h3>";
-}
-?>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <div class="menu">
+        <a href="incidencies.php">Veure incidències</a>
+        <a href="crear_incidencies.php">Crear incidència</a>
+        <a href="afegir_actuacio.php">Afegir actuació</a>
+    </div>
+
 </body>
 </html>
