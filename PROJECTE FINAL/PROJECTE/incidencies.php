@@ -1,7 +1,7 @@
 <?php
 include("conexio.php");
 
-$sql = "SELECT * FROM incidencies";
+$sql = "SELECT * FROM INCIDENCIA";
 $result = $conn->query($sql);
 ?>
 
@@ -17,8 +17,8 @@ $result = $conn->query($sql);
 
 <?php while($row = $result->fetch_assoc()) { ?>
 <tr>
-    <td><?php echo $row['id']; ?></td>
-    <td><?php echo $row['titol']; ?></td>
+    <td><?php echo $row['id_incidencia']; ?></td>
+    <td><?php echo $row['descripcio']; ?></td>
     <td><?php echo $row['estat']; ?></td>
     <td>
         <a href="detall_incidencia.php?id=<?php echo $row['id']; ?>">Editar</a>
