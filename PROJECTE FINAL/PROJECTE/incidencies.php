@@ -1,29 +1,65 @@
 <?php
-include("conexio.php");
+include 'conexio.php';
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+$sql = "SELECT
+            i.id_incidencia,
+            i.descripcio,
+            i.estat,
+            i.prioritat,
+            d.nom AS departament,
+            t.nom AS tecnic
 
-$sql = "SELECT * FROM INCIDENCIA";
-$result = $conn->query($sql);
+        FROM INCIDENCIA i
+
+        INNER JOIN DEPARTAMENT d
+            ON i.id_departament = d.id_departament
+
+        LEFT JOIN TECNIC t
+            ON i.id_tecnic = t.id_tecnic
+
+        ORDER BY i.data_creacio DESC";
+
+$resultat = mysqli_query($conn, $sql);
 ?>
 
-<h2>Llistat incidències</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Llistat incidències</title>
+</head>
+<body>
+
+<h1>Llistat incidències</h1>
 
 <table border="1">
+
 <tr>
     <th>ID</th>
-    <th>Títol</th>
+    <th>Departament</th>
+    <th>Descripció</th>
     <th>Estat</th>
-    <th>Accions</th>
+    <th>Prioritat</th>
+    <th>Tècnic</th>
 </tr>
 
-<?php while($row = $result->fetch_assoc()) { ?>
+<?php while($fila = mysqli_fetch_assoc($resultat)) { ?>
+
 <tr>
-    <td><?php echo $row['id_incidencia']; ?></td>
-    <td><?php echo $row['descripcio']; ?></td>
-    <td><?php echo $row['estat']; ?></td>
-    <td>
-        <a href="detall_incidencia.php?id=<?php echo $row['id']; ?>">Editar</a>
-    </td>
+
+    <td><?= $fila['id_incidencia'] ?></td>
+    <td><?= $fila['departament'] ?></td>
+    <td><?= $fila['descripcio'] ?></td>
+    <td><?= $fila['estat'] ?></td>
+    <td><?= $fila['prioritat'] ?></td>
+    <td><?= $fila['tecnic'] ?></td>
+
 </tr>
+
 <?php } ?>
 
 </table>
+
+</body>
+</html>
