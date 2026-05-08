@@ -2,54 +2,32 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Gestió d'Incidències</title>
+    <title>Gestió d'Incidències - Inici</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            margin-top: 50px;
-        }
-        .menu {
-            margin-top: 40px;
-        }
+        body { background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif; }
+        .container { margin-top: 60px; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; }
+        h1 { margin-bottom: 30px; font-weight: bold; color: #333; }
+        /* El teu estil de botons */
         .menu a {
-            display: block;
-            margin: 10px auto;
-            padding: 15px;
-            width: 250px;
-            text-decoration: none;
-            background-color: #007BFF;
-            color: white;
-            border-radius: 5px;
+            display: block; margin: 15px auto; padding: 15px; width: 280px;
+            text-decoration: none; background-color: #007BFF; color: white;
+            border-radius: 8px; transition: 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        .menu a:hover {
-            background-color: #0056b3;
-        }
-
-        .menu a {
-            transition: all 0.3s ease; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-        }
+        .menu a:hover { background-color: #0056b3; transform: scale(1.02); }
     </style>
 </head>
 <body>
 
     <div class="container">
-        
-        <h1 class="fw-bold text-dark">Benvingut al sistema d'incidències</h1>
-        <p class="lead text-muted">Selecciona una opció:</p>
+        <h1>SISTEMA TIC</h1>
+        <p class="text-muted">Benvingut, selecciona una acció:</p>
 
         <div class="menu">
-            <a href="incidencies.php">Veure incidències</a>
-            <a href="crear_incidencies.php">Crear incidència</a>
-            <a href="afegir_actuacio.php">Afegir actuació</a>
+            <a href="incidencies.php">Llistat d'incidències</a>
+            <a href="crear_incidencies.php">Registrar nova incidència</a>
+            <a href="afegir_actuacio.php">Afegir actuació tècnica</a>
         </div>
-
     </div>
 
 </body>

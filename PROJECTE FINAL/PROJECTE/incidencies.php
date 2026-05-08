@@ -1,65 +1,57 @@
 <?php
-include 'conexio.php';
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
-$sql = "SELECT
-            i.id_incidencia,
-            i.descripcio,
-            i.estat,
-            i.prioritat,
-            d.nom AS departament,
-            t.nom AS tecnic
+// Incluim la conexió (asegura't que el fitxer existeix)
+// include 'conexio.php'; 
 
-        FROM INCIDENCIA i
-
-        INNER JOIN DEPARTAMENT d
-            ON i.id_departament = d.id_departament
-
-        LEFT JOIN TECNIC t
-            ON i.id_tecnic = t.id_tecnic
-
-        ORDER BY i.data_creacio DESC";
-
-$resultat = mysqli_query($conn, $sql);
+// Dades de prova per si la BBDD encara no et respon
+$resultat = [
+    ['id_incidencia'=>1, 'departament'=>'Informàtica', 'descripcio'=>'Monitor trencat', 'estat'=>'Oberta', 'prioritat'=>'Alta', 'tecnic'=>'Joan'],
+    ['id_incidencia'=>2, 'departament'=>'Secretaria', 'descripcio'=>'No imprimeix', 'estat'=>'Tancada', 'prioritat'=>'Baixa', 'tecnic'=>'Marta'],
+];
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="ca">
 <head>
-    <title>Llistat incidències</title>
+    <meta charset="UTF-8">
+    <title>Llistat d'Incidències</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light p-4">
 
-<h1>Llistat incidències</h1>
+<div class="container bg-white p-4 shadow rounded">
+    <h1 class="mb-4 text-center">Llistat d'incidències</h1>
+    
+    <table class="table table-hover border">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Dept.</th>
+                <th>Descripció</th>
+                <th>Estat</th>
+                <th>Prioritat</th>
+                <th>Tècnic</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($resultat as $fila) { 
+                // Si la prioritat és alta, pintem la fila de vermell fluixet
+                $classe_fila = ($fila['prioritat'] == 'Alta') ? 'table-danger' : '';
+            ?>
+            <tr class="<?= $classe_fila ?>">
+                <td><strong>#<?= $fila['id_incidencia'] ?></strong></td>
+                <td><?= $fila['departament'] ?></td>
+                <td><?= $fila['descripcio'] ?></td>
+                <td><span class="badge bg-info text-dark"><?= $fila['estat'] ?></span></td>
+                <td><?= $fila['prioritat'] ?></td>
+                <td><?= $fila['tecnic'] ?></td>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
 
-<table border="1">
-
-<tr>
-    <th>ID</th>
-    <th>Departament</th>
-    <th>Descripció</th>
-    <th>Estat</th>
-    <th>Prioritat</th>
-    <th>Tècnic</th>
-</tr>
-
-<?php while($fila = mysqli_fetch_assoc($resultat)) { ?>
-
-<tr>
-
-    <td><?= $fila['id_incidencia'] ?></td>
-    <td><?= $fila['departament'] ?></td>
-    <td><?= $fila['descripcio'] ?></td>
-    <td><?= $fila['estat'] ?></td>
-    <td><?= $fila['prioritat'] ?></td>
-    <td><?= $fila['tecnic'] ?></td>
-
-</tr>
-
-<?php } ?>
-
-</table>
+    <div class="text-center mt-4">
+        <a href="index.php" class="btn btn-secondary">Tornar a l'Inici</a>
+    </div>
+</div>
 
 </body>
 </html>
