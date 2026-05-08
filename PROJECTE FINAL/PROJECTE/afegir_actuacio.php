@@ -8,7 +8,7 @@
         body { background-color: #f4f4f4; font-family: Arial, sans-serif; }
         .container { margin-top: 60px; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 500px; }
         h2 { font-weight: bold; color: #333; margin-bottom: 25px; text-align: center; }
-        /* El teu botó blau */
+        
         .btn-enviar {
             background-color: #007BFF; color: white; border: none; padding: 12px;
             width: 100%; border-radius: 5px; font-size: 16px; transition: 0.3s;
@@ -46,9 +46,9 @@
         document.getElementById('formActuacio').onsubmit = function(e) {
             var text = document.getElementById('desc').value;
             
-            // Validació: que no estigui buit i que tingui una longitud mínima
+            
             if(text.length < 20) {
-                e.preventDefault(); // Atura l'enviament del formulari
+                e.preventDefault(); 
                 alert("Per favor, sigues més específic. La descripció ha de tenir almenys 20 caràcters.");
             }
         };

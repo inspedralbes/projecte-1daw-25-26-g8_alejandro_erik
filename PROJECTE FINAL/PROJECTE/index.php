@@ -8,7 +8,7 @@
         body { background-color: #f4f4f4; text-align: center; font-family: Arial, sans-serif; }
         .container { margin-top: 60px; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); max-width: 600px; }
         h1 { margin-bottom: 30px; font-weight: bold; color: #333; }
-        /* El teu estil de botons */
+       
         .menu a {
             display: block; margin: 15px auto; padding: 15px; width: 280px;
             text-decoration: none; background-color: #007BFF; color: white;
@@ -20,7 +20,7 @@
 <body>
 
     <div class="container">
-        <h1>SISTEMA TIC</h1>
+        <h1>Institut PEDRALBES</h1>
         <p class="text-muted">Benvingut, selecciona una acció:</p>
 
         <div class="menu">
