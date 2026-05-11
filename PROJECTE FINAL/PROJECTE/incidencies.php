@@ -1,13 +1,12 @@
 <?php
-// Incluim la conexió (asegura't que el fitxer existeix)
 require_once 'conexio.php'; 
 
+$sql = "SELECT * FROM INCIDENCIA";
 
-?
-?
-?
-?
-$resultat =
+$query = mysqli_query($conn, $sql);
+
+$resultat = $query;
+?>
 
 
 
