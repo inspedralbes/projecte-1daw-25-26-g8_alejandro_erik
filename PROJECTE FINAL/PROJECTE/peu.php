@@ -1,4 +1,4 @@
-</div><!-- /container -->
+</div>
 
 <div class="peu">
     Gestió d'Incidències Informàtiques &copy; <?php echo date('Y'); ?> &mdash; Institut Pedralbes

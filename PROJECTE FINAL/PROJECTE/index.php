@@ -1,6 +1,15 @@
-<?php include 'includes/capcalera.php'; ?>
+<?php include 'includes/cap.php'; ?>
 
-<h1 class="page-title">Institut Pedralbes &mdash; Sistema de Gestió d'Incidències</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <h1 class="page-title">Institut Pedralbes &mdash; Sistema de Gestió d'Incidències</h1>
 <p class="text-muted">Benvingut. Selecciona una opció:</p>
 
 <div class="row mt-4">
@@ -41,5 +50,8 @@
             </div>
         </div>
     </div>
+    <script> src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 
 <?php include 'includes/peu.php'; ?>
