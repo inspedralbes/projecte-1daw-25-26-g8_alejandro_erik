@@ -1,59 +1,80 @@
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-    <meta charset="UTF-8">
-    <title>Crear Incidència</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-5">
+<?php
+include 'conexio.php';
 
-    <div class="container bg-white p-4 shadow rounded" style="max-width: 500px;">
-        <h2 class="text-center mb-4">Nova Incidència</h2>
+$missatge = '';
+$id_nova  = null;
 
-        <form method="POST" id="meuForm">
-            <div class="mb-3">
-                <label class="form-label">Títol:</label>
-                <input type="text" name="titol" id="titol" class="form-control" placeholder="Què passa?">
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label">Descripció detallada:</label>
-                <textarea name="descripcio" id="desc" class="form-control" rows="3"></textarea>
-            </div>
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_departament = intval($_POST['id_departament'] ?? 0);
+    $descripcio     = trim($_POST['descripcio'] ?? '');
 
-            <div class="mb-3">
-                <label class="form-label">Prioritat:</label>
-                <select name="prioritat" class="form-select">
-                    <option value="Baixa">Baixa</option>
-                    <option value="Mitja">Mitja</option>
-                    <option value="Alta">Alta</option>
-                </select>
-            </div>
+    if ($id_departament <= 0 || empty($descripcio)) {
+        $missatge = '<div class="alert alert-danger">Tots els camps són obligatoris.</div>';
+    } else {
+        $stmt = $conn->prepare(
+            "INSERT INTO INCIDENCIA (id_departament, descripcio, estat) VALUES (?, ?, 'oberta')"
+        );
+        $stmt->execute([$id_departament, $descripcio]);
+        $id_nova  = $conn->lastInsertId();
+        $missatge = '<div class="alert alert-success">
+            Incidència registrada correctament!<br>
+            El teu codi és: <strong>' . $id_nova . '</strong>. Guarda\'l per consultar l\'estat.
+        </div>';
+    }
+}
 
-            <button type="submit" class="btn btn-primary w-100">Registrar Incidència</button>
-        </form>
+$departaments = $conn->query("SELECT * FROM DEPARTAMENT ORDER BY nom")->fetchAll();
 
-        <?php
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $titol = htmlspecialchars($_POST["titol"]);
-            echo "<div class='alert alert-success mt-3'>S'ha registrat: <strong>$titol</strong></div>";
-        }
-        ?>
+include 'includes/capcalera.php';
+?>
 
-        <div class="text-center mt-3">
-            <a href="index.php" class="text-muted">Cancel·lar i tornar</a>
-        </div>
+<h1 class="page-title">Nova Incidència</h1>
+<p>Omple el formulari per registrar una nova incidència. La data s'agafa automàticament (<?php echo date('d/m/Y'); ?>).</p>
+
+<?php echo $missatge; ?>
+
+<?php if (!$id_nova): ?>
+<form method="POST" onsubmit="return validarForm()">
+    <div class="mb-3">
+        <label class="form-label">Departament: <span class="text-danger">*</span></label>
+        <select name="id_departament" id="id_departament" class="form-select">
+            <option value="">-- Selecciona el teu departament --</option>
+            <?php foreach ($departaments as $dep): ?>
+                <option value="<?php echo $dep['id_departament']; ?>">
+                    <?php echo htmlspecialchars($dep['nom']); ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
     </div>
+    <div class="mb-3">
+        <label class="form-label">Descripció de la incidència: <span class="text-danger">*</span></label>
+        <textarea name="descripcio" id="descripcio" class="form-control" rows="4"
+                  placeholder="Descriu el problema de forma clara..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrar Incidència</button>
+    <a href="index.php" class="btn btn-secondary">Cancel·lar</a>
+</form>
+<?php else: ?>
+    <a href="index.php" class="btn btn-primary">Tornar a l'inici</a>
+    <a href="estat_incidencia.php?id=<?php echo $id_nova; ?>" class="btn btn-outline-primary">
+        Veure estat de la incidència #<?php echo $id_nova; ?>
+    </a>
+<?php endif; ?>
 
-    <script>
-        document.getElementById('meuForm').onsubmit = function(e) {
-            let t = document.getElementById('titol').value;
-            if(t.length < 5) {
-                e.preventDefault();
-                alert("El títol és massa curt!");
-            }
-        };
-    </script>
+<script>
+function validarForm() {
+    var dep  = document.getElementById('id_departament').value;
+    var desc = document.getElementById('descripcio').value.trim();
+    if (!dep) {
+        alert('Has de seleccionar el departament!');
+        return false;
+    }
+    if (!desc) {
+        alert("Has d'introduir una descripció!");
+        return false;
+    }
+    return true;
+}
+</script>
 
-</body>
-</html>
+<?php include 'includes/peu.php'; ?>

@@ -1,71 +1,87 @@
 <?php
-require_once 'conexio.php'; 
+include 'conexio.php';
+include 'includes/capcalera.php';
 
-$sql = "SELECT * FROM INCIDENCIA";
-
-$query = mysqli_query($conn, $sql);
-
-$resultat = $query;
+$stmt = $conn->query("
+    SELECT i.*, d.nom AS nom_departament, t.nom AS nom_tecnic
+    FROM INCIDENCIA i
+    LEFT JOIN DEPARTAMENT d ON i.id_departament = d.id_departament
+    LEFT JOIN TECNIC t      ON i.id_tecnic      = t.id_tecnic
+    ORDER BY
+        i.estat ASC,
+        FIELD(i.prioritat, 'alta', 'mitjana', 'baixa'),
+        i.data_creacio ASC
+");
+$incidencies = $stmt->fetchAll();
 ?>
 
+<h1 class="page-title">Llistat d'Incidències</h1>
 
-
-
-// Dades de prova per si la BBDD encara no et respon
-/*$resultat = [
-    ['id_incidencia'=>1, 'departament'=>'Informàtica', 'descripcio'=>'Monitor trencat', 'estat'=>'Oberta', 'prioritat'=>'Alta', 'tecnic'=>'Joan'],
-    ['id_incidencia'=>2, 'departament'=>'Secretaria', 'descripcio'=>'No imprimeix', 'estat'=>'Tancada', 'prioritat'=>'Baixa', 'tecnic'=>'Marta'],
-    ['id_incidencia'=>3, 'departament'=>'Pasdasd', 'descripcio'=>'BLABLA', 'estat'=>'Tancada', 'prioritat'=>'Baixa', 'tecnic'=>'Marta'],
-
-    ];
-    */
-?>
-<!DOCTYPE html>
-<html lang="ca">
-<head>
-    <meta charset="UTF-8">
-    <title>Llistat d'Incidències</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>ssword 
-<body class="bg-light p-4">
-
-<div class="container bg-white p-4 shadow rounded">
-    <h1 class="mb-4 text-center">Llistat d'incidències</h1>
-    
-    <table class="table table-hover border">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Dept.</th>
-                <th>Descripció</th>
-                <th>Estat</th>
-                <th>Prioritat</th>
-                <th>Tècnic</th>ç
-                <th>PATATA</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($resultat as $fila) { 
-                
-                    $classe_fila = ($fila['prioritat'] == 'Alta') ? 'table-danger' : '';
-                ?>
-                <tr class="<?= $classe_fila ?>">
-                    <td><strong>#<?= $fila['id_incidencia'] ?></strong></td>
-                    <td><?= $fila['departament'] ?></td>
-                    <td><?= $fila['descripcio'] ?></td>
-                    <td><span class="badge bg-info text-dark"><?= $fila['estat'] ?></span></td>
-                    <td><?= $fila['prioritat'] ?></td>
-                    <td><?= $fila['tecnic'] ?></td>
-                    <td>POMA</td>
-                </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-
-    <div class="text-center mt-4">
-        <a href="index.php" class="btn btn-secondary">Tornar a l'Inici</a>
-    </div>
+<div class="mb-3">
+    <span class="badge bg-danger me-1">Alta</span>
+    <span class="badge bg-warning text-dark me-1">Mitjana</span>
+    <span class="badge bg-success me-1">Baixa</span>
+    <span class="badge bg-secondary">Tancada</span>
+    &nbsp; Colors per prioritat
 </div>
 
-</body>
-</html>
+<div class="table-responsive">
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Departament</th>
+            <th>Data</th>
+            <th>Descripció</th>
+            <th>Prioritat</th>
+            <th>Tècnic</th>
+            <th>Estat</th>
+            <th>Accions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($incidencies as $inc):
+            if ($inc['estat'] === 'tancada') {
+                $classe = 'table-secondary';
+            } elseif ($inc['prioritat'] === 'alta') {
+                $classe = 'table-danger';
+            } elseif ($inc['prioritat'] === 'mitjana') {
+                $classe = 'table-warning';
+            } elseif ($inc['prioritat'] === 'baixa') {
+                $classe = 'table-success';
+            } else {
+                $classe = '';
+            }
+        ?>
+            <tr class="<?php echo $classe; ?>">
+                <td><strong>#<?php echo $inc['id_incidencia']; ?></strong></td>
+                <td><?php echo htmlspecialchars($inc['nom_departament'] ?? '-'); ?></td>
+                <td><?php echo $inc['data_creacio']; ?></td>
+                <td><?php echo htmlspecialchars(mb_substr($inc['descripcio'], 0, 60)) . (mb_strlen($inc['descripcio']) > 60 ? '...' : ''); ?></td>
+                <td><?php echo $inc['prioritat'] ?? '-'; ?></td>
+                <td><?php echo htmlspecialchars($inc['nom_tecnic'] ?? 'Sense assignar'); ?></td>
+                <td>
+                    <?php if ($inc['estat'] === 'tancada'): ?>
+                        <span class="badge bg-secondary">Tancada</span>
+                    <?php elseif ($inc['estat'] === 'en_proces'): ?>
+                        <span class="badge bg-primary">En procés</span>
+                    <?php else: ?>
+                        <span class="badge bg-warning text-dark">Oberta</span>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <a href="afegir_actuacio.php?id=<?php echo $inc['id_incidencia']; ?>" class="btn btn-sm btn-primary">Actuació</a>
+                    <?php if ($inc['estat'] !== 'tancada'): ?>
+                        <a href="detall_incidencia.php?id=<?php echo $inc['id_incidencia']; ?>" class="btn btn-sm btn-warning">Modificar</a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+</div>
+
+<p><strong>Total incidències:</strong> <?php echo count($incidencies); ?></p>
+<a href="crear_incidencies.php" class="btn btn-primary">Nova Incidència</a>
+
+<?php include 'includes/peu.php'; ?>
