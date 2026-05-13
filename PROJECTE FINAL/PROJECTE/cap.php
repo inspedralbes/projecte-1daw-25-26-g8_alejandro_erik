@@ -59,7 +59,7 @@
         <div class="container">
 
             <a class="navbar-brand" href="index.php">
-                🖥️ Incidències TI
+                Institut Pedralbes
             </a>
 
             <button class="navbar-toggler bg-light" 
@@ -77,12 +77,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="crear_incidencies.php">
                             Nova Incidència
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="estat_incidencia.php">
-                            Estat Incidència
                         </a>
                     </li>
 
@@ -110,17 +104,14 @@
         </h1>
 
         <p>
-            Contingut de la pàgina aquí...
-        </p>
+            Gestor de les incidencies informàtiques de l'Institut Pedralbes.
 
     </div>
-
-    <footer class="peu">
-        Institut Pedralbes - Sistema de Gestió d'Incidències
-    </footer>
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
+    
 </body>
 </

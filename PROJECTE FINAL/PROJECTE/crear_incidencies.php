@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $departaments = $conn->query("SELECT * FROM DEPARTAMENT ORDER BY nom")->fetchAll();
 
-include 'includes/capcalera.php';
+include 'cap.php';
 ?>
 
 <h1 class="page-title">Nova Incidència</h1>
@@ -56,7 +56,7 @@ include 'includes/capcalera.php';
 </form>
 <?php else: ?>
     <a href="index.php" class="btn btn-primary">Tornar a l'inici</a>
-    <a href="estat_incidencia.php?id=<?php echo $id_nova; ?>" class="btn btn-outline-primary">
+    <a href="incidencia.php?id=<?php echo $id_nova; ?>" class="btn btn-outline-primary">
         Veure estat de la incidència #<?php echo $id_nova; ?>
     </a>
 <?php endif; ?>
@@ -77,4 +77,4 @@ function validarForm() {
 }
 </script>
 
-<?php include 'includes/peu.php'; ?>
+<?php include 'peu.php'; ?>

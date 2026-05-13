@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $id = intval($_GET['id'] ?? $_POST['id_incidencia'] ?? 0);
 
-include 'includes/capcalera.php';
+include 'cap.php';
 ?>
 
 <h1 class="page-title">Registrar Actuació</h1>
@@ -214,4 +214,4 @@ function validarActuacio() {
 }
 </script>
 
-<?php include 'includes/peu.php'; ?>
+<?php include 'peu.php'; ?>

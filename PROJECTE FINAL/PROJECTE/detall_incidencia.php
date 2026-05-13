@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     exit;
 }
 
-include 'includes/capcalera.php';
+include 'cap.php';
 
 $ok = isset($_GET['ok']);
 $id_sel = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -138,4 +138,4 @@ $tecnics = $conn->query("SELECT * FROM TECNIC ORDER BY nom")->fetchAll();
     <?php endif; ?>
 <?php endif; ?>
 
-<?php include 'includes/peu.php'; ?>
+<?php include 'peu.php'; ?>

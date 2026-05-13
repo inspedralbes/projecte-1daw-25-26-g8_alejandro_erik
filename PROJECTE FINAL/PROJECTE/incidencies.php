@@ -1,6 +1,6 @@
 <?php
 include 'conexio.php';
-include 'includes/cap.php';
+include 'cap.php';
 
 $stmt = $conn->query("
     SELECT i.*, d.nom AS nom_departament, t.nom AS nom_tecnic
@@ -95,6 +95,6 @@ $incidencies = $stmt->fetchAll();
 <a href="crear_incidencies.php" class="btn btn-primary">Nova Incidència</a>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-<?php include 'includes/peu.php'; ?>
+<?php include 'peu.php'; ?>
 </body>
 </html>
