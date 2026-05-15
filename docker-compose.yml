@@ -1,12 +1,11 @@
 services:
   web:
-    
-    build: . 
+    image: ebota/daw:apache_php_mysql_mongodb
     container_name: incidencies-web
     ports:
       - "8080:80"
+    command: /bin/bash -c "composer install --no-interaction --no-plugins --no-scripts && echo WEBSERVER_________UP_________AND_______RUNNIIIIIIING && apache2-foreground"    
     volumes:
-      
       - "./PROJECTE FINAL/PROJECTE:/var/www/html"
     depends_on:
       - db
@@ -24,7 +23,6 @@ services:
       MYSQL_PASSWORD: usuari1234
     volumes:
       - mysql-data:/var/lib/mysql
-      
       - ./db_init:/docker-entrypoint-initdb.d
     networks:
       - app-network
@@ -40,8 +38,32 @@ services:
     networks:
       - app-network
 
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - app-network
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8082:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
 volumes:
   mysql-data:
+  mongodb_data:
 
 networks:
   app-network:

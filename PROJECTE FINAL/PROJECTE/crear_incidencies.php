@@ -1,5 +1,6 @@
 <?php
 include 'conexio.php';
+require_once 'mongo.php';
 
 $missatge = '';
 $id_nova  = null;
@@ -11,12 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($id_departament <= 0 || empty($descripcio)) {
         $missatge = '<div class="alert alert-danger shadow-sm">Tots els camps són obligatoris.</div>';
     } else {
-        // Inserim la incidència. Nota: 'prioritat' es queda com a NULL o segons defecte de BD fins que un tècnic la modifiqui.
         $stmt = $conn->prepare(
             "INSERT INTO INCIDENCIA (id_departament, descripcio, estat) VALUES (?, ?, 'oberta')"
         );
         $stmt->execute([$id_departament, $descripcio]);
         $id_nova  = $conn->lastInsertId();
+
+        // ✅ Log a MongoDB
+        logAccio('crear', [
+            'id_incidencia'  => (int)$id_nova,
+            'id_departament' => $id_departament,
+            'descripcio'     => $descripcio,
+            'estat'          => 'oberta'
+        ]);
+
         $missatge = '<div class="alert alert-success shadow-sm">
             <h4 class="alert-heading">Incidència registrada!</h4>
             <p>S\'ha creat correctament amb el codi: <strong>#' . $id_nova . '</strong>.</p>
